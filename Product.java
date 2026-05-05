@@ -27,7 +27,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return String.format("[%s] %s (%s) — qty %d @ %s", id, name, category, quantity, location);
+        return String.format("[%s] %s (%s) - qty %d @ %s", id, name, category, quantity, location);
     }
 
     // RFC-4180-style CSV serialization
