@@ -8,7 +8,10 @@ import java.util.Scanner;
 public class Main {
 
     private static final Path DATA_FILE = Path.of("inventory.csv");
-    private static final InventoryManager inventory = new InventoryManager();
+    private static final Path LOG_FILE  = Path.of("transactions.log");
+
+    private static final TransactionLog txLog   = new TransactionLog(LOG_FILE);
+    private static final InventoryManager inventory = new InventoryManager(txLog);
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -27,8 +30,9 @@ public class Main {
                 case "5" -> searchById();
                 case "6" -> searchByName();
                 case "7" -> showLowStock();
-                case "8" -> { saveAndExit(); return; }
-                default  -> System.out.println("Invalid option. Please enter 1-8.");
+                case "8" -> viewHistory();
+                case "9" -> { saveAndExit(); return; }
+                default  -> System.out.println("Invalid option. Please enter 1-9.");
             }
         }
     }
@@ -42,7 +46,8 @@ public class Main {
         System.out.println("5. Search by ID");
         System.out.println("6. Search by name");
         System.out.println("7. Show low-stock alerts");
-        System.out.println("8. Save & exit");
+        System.out.println("8. View transaction history");
+        System.out.println("9. Save & exit");
         System.out.print("Choice: ");
     }
 
@@ -133,6 +138,15 @@ public class Main {
         }
     }
 
+    private static void viewHistory() {
+        List<String> entries = txLog.getEntries();
+        if (entries.isEmpty()) {
+            System.out.println("No transactions recorded yet.");
+        } else {
+            entries.forEach(System.out::println);
+        }
+    }
+
     private static void saveAndExit() {
         try {
             FileHandler.save(DATA_FILE, inventory.all());
@@ -142,7 +156,6 @@ public class Main {
         }
     }
 
-    // Reads an integer in [min, max], re-prompting on invalid input.
     private static int promptInt(String prompt, int min, int max) {
         while (true) {
             System.out.print(prompt);
@@ -161,15 +174,16 @@ public class Main {
 
     private static void loadOnStartup() {
         try {
+            txLog.load();
             List<Product> loaded = FileHandler.load(DATA_FILE);
             for (Product p : loaded) {
-                inventory.add(p);
+                inventory.loadFromFile(p);
             }
             if (!loaded.isEmpty()) {
                 System.out.println("Loaded " + loaded.size() + " product(s) from " + DATA_FILE + ".");
             }
         } catch (IOException e) {
-            System.out.println("Warning: could not load inventory file — " + e.getMessage());
+            System.out.println("Warning: could not load data - " + e.getMessage());
         }
     }
 

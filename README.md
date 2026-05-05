@@ -7,6 +7,7 @@ A beginner-friendly Java CLI application for managing products in a small wareho
 - Add, remove, and search products
 - Update stock quantities
 - Low-stock alerts
+- Transaction history — every add, update, and remove is logged with a timestamp
 - Persistent storage via CSV (auto-saved on exit)
 
 ## Requirements
@@ -34,12 +35,13 @@ On launch the app loads `inventory.csv` from the working directory (if it exists
 5. Search by ID
 6. Search by name
 7. Show low-stock alerts
-8. Save & exit
+8. View transaction history
+9. Save & exit
 ```
 
 Enter the number of the action you want. The app re-prompts on invalid input and never crashes on bad data.
 
-Inventory is saved to `inventory.csv` when you choose **Save & exit** (option 8) or press `Ctrl+C`.
+Inventory is saved to `inventory.csv` when you choose **Save & exit** (option 9) or press `Ctrl+C`.
 
 ## Product fields
 
@@ -63,14 +65,28 @@ BOLT-04,"Bolts, 1/4""",Fasteners,200,Bin B2
 
 Field values containing commas or quotes are wrapped in double-quotes (RFC 4180). The file can be edited by hand or opened in a spreadsheet app.
 
+## Transaction history
+
+Every change is recorded with a timestamp and appended to `transactions.log`:
+
+```
+[2026-05-05 12:01] ADD: Widget (10 units)
+[2026-05-05 12:05] UPDATE: Widget -8
+[2026-05-05 12:10] REMOVE: Widget
+```
+
+The log survives restarts — it is loaded on startup and displayed via option 8. Failed operations (e.g. duplicate ID) are not logged.
+
 ## Project structure
 
 ```
 Main.java              Entry point and menu loop
 InventoryManager.java  In-memory store and business logic
 FileHandler.java       CSV load/save
+TransactionLog.java    Audit log (append-only, persisted to transactions.log)
 Product.java           Product data class
 inventory.csv          Auto-generated data file (created on first save)
+transactions.log       Auto-generated audit log (appended on every change)
 ```
 
 ## Low-stock threshold
