@@ -1,0 +1,26 @@
+id,name,category,quantity,location
+A1,Widget,Tools,12,Shelf A1
+A2,Hammer,Tools,8,Shelf A2
+A3,Screwdriver Set,Tools,15,Shelf A3
+A4,Drill Machine,Power Tools,3,Shelf B1
+B1,Bolts 1/4",Fasteners,200,Bin B2
+B2,Nuts M6,Fasteners,180,Bin B2
+B3,Washers,Fasteners,5,Bin B3
+C1,Packaging Tape,Packaging,25,Shelf C1
+C2,Cardboard Box Small,Packaging,50,Shelf C2
+C3,Cardboard Box Large,Packaging,10,Shelf C2
+D1,Gloves Safety,Protective Gear,30,Shelf D1
+D2,Helmet Standard,Protective Gear,4,Shelf D2
+D3,Reflective Vest,Protective Gear,6,Shelf D2
+E1,Printer Ink Black,Office Supplies,2,Shelf E1
+E2,A4 Paper Pack,Office Supplies,100,Shelf E1
+E3,Stapler Heavy Duty,Office Supplies,7,Shelf E2
+F1,Industrial Cleaner 5L,Chemicals,9,Shelf F1
+F2,Lubricant Spray,Chemicals,14,Shelf F1
+F3,Adhesive Glue,Adhesives,1,Shelf F2
+G1,Steel Pipe 2m,Raw Materials,40,Yard A
+G2,Aluminum Sheet 1mm,Raw Materials,18,Yard B
+G3,Copper Wire Roll,Raw Materials,6,Yard B
+H1,Barcode Labels,Stationery,300,Shelf E3
+H2,Marker Pens,Stationery,45,Shelf E3
+H3,Shipping Labels Rolls,Stationery,5,Shelf E3
